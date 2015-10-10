@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Assets.Scripts.Missions;
 #endregion 
 
 #region " Referenced assemblies "
@@ -25,6 +26,14 @@ class BombGenerator
 	// Reflexil will automaticaly map current type, fields or methods to original references.
 	void HelloInjection()
 	{
+	    logger.Debug("INSIDE THREAD");
+	    foreach (BombComponent component in this.bomb.BombComponents)
+	    {
+	        if (component.ComponentType == ComponentTypeEnum.Wires)
+	        {
+	            logger.Debug("found wires");
+	        }
+	    }
 	}
 	
 	#region " Methods stubs "
