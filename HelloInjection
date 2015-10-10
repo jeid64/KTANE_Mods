@@ -26,14 +26,24 @@ class BombGenerator
 	// Reflexil will automaticaly map current type, fields or methods to original references.
 	void HelloInjection()
 	{
-	    logger.Debug("INSIDE THREAD");
-	    foreach (BombComponent component in this.bomb.BombComponents)
-	    {
-	        if (component.ComponentType == ComponentTypeEnum.Wires)
-	        {
-	            logger.Debug("found wires");
-	        }
-	    }
+		logger.Debug("INSIDE THREAD");
+		while(true){
+		    foreach (BombComponent component in this.bomb.BombComponents)
+		    {
+		    	logger.DebugFormat("FOUND COMPONENT {0}",component.ComponentType);
+		        if (component.ComponentType == ComponentTypeEnum.Maze)
+		        {
+		        	logger.Debug("MOVING DOWN");
+		            //((InvisibleWallsComponent)component).ButtonDown(0);
+		        }else if(component.ComponentType == ComponentTypeEnum.Wires){
+		        	logger.Debug("SNIPPING 0");
+		        	//((WireSetComponent)component).WireSnipped(0);
+		        }else if(component.ComponentType == ComponentTypeEnum.BigButton){
+		        	((ButtonComponent)component).OnModuleSelect();
+		        }
+		    }
+			System.Threading.Thread.Sleep(1000);    
+		}
 	}
 	
 	#region " Methods stubs "
