@@ -30,18 +30,19 @@ class BombGenerator
 		while(true){
 		    foreach (BombComponent component in this.bomb.BombComponents)
 		    {
-		    	logger.DebugFormat("FOUND COMPONENT {0}",component.ComponentType);
 		        if (component.ComponentType == ComponentTypeEnum.Maze)
 		        {
-		        	logger.Debug("MOVING DOWN");
+		        	//logger.Debug("MOVING DOWN");
 		            //((InvisibleWallsComponent)component).ButtonDown(0);
 		        }else if(component.ComponentType == ComponentTypeEnum.Wires){
-		        	logger.Debug("SNIPPING 0");
+		        	//logger.Debug("SNIPPING 0");
 		        	//((WireSetComponent)component).WireSnipped(0);
 		        }else if(component.ComponentType == ComponentTypeEnum.BigButton){
-		        	((ButtonComponent)component).OnModuleSelect();
+		        	logger.Debug("START HOLDING");
+		        	((ButtonComponent)component).StartHolding();
 		        }
 		    }
+		    logger.Debug("THEAD ALIVE");
 			System.Threading.Thread.Sleep(1000);    
 		}
 	}
