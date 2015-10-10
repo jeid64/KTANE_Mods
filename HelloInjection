@@ -1,0 +1,5 @@
+public void HelloInjection()
+{
+    this.bomb.SetTotalTime(50000f);
+    logger.Debug("INSIDE THREAD");
+}
