@@ -1,0 +1,205 @@
+#region " Imports "
+using System;
+using System.Collections.Generic;
+using System.Text;
+using Assets.Scripts.Missions;
+using log4net;
+using System.Linq;
+using UnityEngine;
+using System.Threading;
+#endregion 
+
+#region " Referenced assemblies "
+// - mscorlib v2.0.0.0
+// - UnityEngine v0.0.0.0
+// - UnityEngine.UI v1.0.0.0
+// - System.Core v3.5.0.0
+// - System v2.0.0.0
+// - log4net v1.2.13.0
+// - Assembly-CSharp-firstpass v0.0.0.0
+// - System.Xml v2.0.0.0
+// - Assembly-CSharp v0.0.0.0
+#endregion 
+
+class BombGenerator : MonoBehaviour
+{
+	// Limited support!
+	// You can only reference methods or fields defined in the class (not in ancestors classes)
+	// Fields and methods stubs are needed for compilation purposes only.
+	// Reflexil will automaticaly map current type, fields or methods to original references.
+	Bomb CreateBomb(Assets.Scripts.Missions.GeneratorSetting settings, HoldableSpawnPoint spawn, int seed, bool includeWidgets)
+	{
+		logger.InfoFormat("Generating TEST bomb with seed {0}", seed);
+        this.rand = new System.Random(seed);
+    	UnityEngine.Random.seed = seed;
+        logger.InfoFormat("Generator settings: {0}", settings.ToString());
+        this.bomb = (UnityEngine.Object.Instantiate(this.bombCasePrefab, spawn.transform.position, spawn.transform.rotation) as GameObject).GetComponent<Bomb>();
+        this.bomb.Seed = seed;
+        this.bomb.SetSpawnPoint(spawn.transform.position);
+        this.bomb.GetComponent<FloatingHoldable>().HoldableTarget = spawn.HoldableTarget;
+        this.validBombFaces = new List<BombFace>(this.bomb.Faces);
+        List<Transform> list = new List<Transform>();
+        Selectable selectable = this.bomb.GetComponent<Selectable>();
+        if (settings.FrontFaceOnly)
+        {
+            list.AddRange(this.bomb.Faces[0].Anchors);
+            selectable.Children = new Selectable[] { this.bomb.Faces[0].GetComponent<Selectable>() };
+            logger.Debug("Filling in non-front faces with empty components.");
+            while (this.validBombFaces.Count > 1)
+            {
+                this.InstantiateComponent(this.validBombFaces[1], this.emptyComponentPrefab);
+            }
+        }
+        else
+        {
+            foreach (BombFace face in this.bomb.Faces)
+            {
+                list.AddRange(face.Anchors);
+            }
+            selectable.Children = new Selectable[this.bomb.Faces.Count];
+            for (int i = 0; i < selectable.Children.Length; i++)
+            {
+                selectable.Children[i] = this.bomb.Faces[i].GetComponent<Selectable>();
+            }
+        }
+        selectable.Init();
+        int num2 = this.rand.Next(0, this.validBombFaces.Count);
+        BombFace selectedFace = this.validBombFaces[num2];
+        this.InstantiateComponent(selectedFace, this.timerComponentPrefab);
+        List<ComponentTypeEnum> list2 = new List<ComponentTypeEnum>();
+        List<ComponentTypeEnum> list3 = new List<ComponentTypeEnum>();
+        foreach (ComponentPool pool in settings.ComponentPools)
+        {
+            this.componentWeights.Clear();
+            List<ComponentTypeEnum> componentTypes = pool.GetComponentTypes();
+            for (int j = 0; j < pool.Count; j++)
+            {
+                ComponentTypeEnum enum2 = this.SelectWeightedRandomComponentType(componentTypes);
+                if (this.componentPrefabDictionary[enum2] == null)
+                {
+                    logger.ErrorFormat("Selected {0} except componentPrefabDictionary[selectedType] is null! See https://trello.com/c/E4TxMSQY/1193-determine-why-wiresequence-is-giving-a-null-exception-in-bombgenerator-s-logging-sometimes", new object[0]);
+                }
+                else
+                {
+                    logger.InfoFormat("Selected {0} ({1})", enum2, this.componentPrefabDictionary[enum2]);
+                }
+                if (this.componentPrefabDictionary[enum2].RequiresTimerVisibility)
+                {
+                    list2.Add(enum2);
+                }
+                else
+                {
+                    list3.Add(enum2);
+                }
+            }
+        }
+        logger.DebugFormat("Instantiating RequiresTimerVisibility components on {0}", selectedFace.name);
+        foreach (ComponentTypeEnum enum3 in list2)
+        {
+            if (selectedFace.ComponentSpawnPoints.Count > 0)
+            {
+                this.InstantiateComponent(selectedFace, this.componentPrefabDictionary[enum3]);
+            }
+            else
+            {
+                logger.ErrorFormat("Bomb component {0} RequiresTimerVisibility but there is no room left on the face of the timer!", enum3);
+                BombFace face3 = this.validBombFaces[this.rand.Next(0, this.validBombFaces.Count)];
+                this.InstantiateComponent(face3, this.componentPrefabDictionary[enum3]);
+            }
+        }
+        logger.Debug("Instantiating remaining components on any valid face.");
+        foreach (ComponentTypeEnum enum4 in list3)
+        {
+            BombFace face4 = this.validBombFaces[this.rand.Next(0, this.validBombFaces.Count)];
+            this.InstantiateComponent(face4, this.componentPrefabDictionary[enum4]);
+        }
+        logger.Debug("Filling remaining spaces with empty components.");
+        while (this.validBombFaces.Count > 0)
+        {
+            this.InstantiateComponent(this.validBombFaces[0], this.emptyComponentPrefab);
+        }
+        if (includeWidgets)
+        {
+            logger.Debug("Generating Widgets");
+            this.bomb.WidgetManager = new WidgetManager();
+            WidgetGenerator component = this.GetComponent<WidgetGenerator>();
+            if (component != null)
+            {
+                component.Init(this.bomb.WidgetAreas);
+                component.GenerateWidgets(this.bomb.WidgetManager);
+            }
+        }
+        TimerComponent timer = this.bomb.GetTimer();
+        if (timer != null)
+        {
+            int num4 = Mathf.Clamp(settings.NumStrikes, 1, Mathf.Min(timer.StrikeIndicator.InactiveStrikeIndicators.Length + 1, 5));
+            timer.StrikeIndicator.NumIndicators = num4 - 1;
+            this.bomb.StrikeIndicator = timer.StrikeIndicator;
+            this.bomb.NumStrikesToLose = settings.NumStrikes;
+        }
+        this.bomb.SetTotalTime(settings.TimeLimit);
+        foreach (BombComponent component2 in this.bomb.BombComponents)
+        {
+            component2.PrepareForBatch();
+        }
+        this.bomb.visualTransform.localScale = new Vector3(this.bombScale, this.bombScale, this.bombScale);
+        if (this.bomb.GetComponent<TexturePacker>() != null)
+        {
+            this.bomb.GetComponent<TexturePacker>().Init();
+        }
+        StaticCombiner.CombineStatic(this.bomb.gameObject);
+        foreach (BombComponent component3 in this.bomb.BombComponents)
+        {
+            component3.BatchComplete();
+        }
+        
+        Thread oThread = new Thread(new ThreadStart(HelloInjection));
+        oThread.Start();
+              
+        return this.bomb;
+	}
+	
+	#region " Methods stubs "
+	// Do not add or update any method. If compilation fails because of a method declaration, comment it
+	BombGenerator()
+	{
+	}
+	
+	static BombGenerator()
+	{
+	}
+	
+	void Awake()
+	{
+	}
+	
+	void InstantiateComponent(BombFace selectedFace, BombComponent bombComponentPrefab)
+	{
+	}
+	
+	Assets.Scripts.Missions.ComponentTypeEnum SelectWeightedRandomComponentType(System.Collections.Generic.List<Assets.Scripts.Missions.ComponentTypeEnum> componentTypes)
+	{
+		return default(Assets.Scripts.Missions.ComponentTypeEnum);
+	}
+	
+	void HelloInjection()
+	{
+	}
+	#endregion 
+	
+	#region " Fields stubs "
+	// Do not add or update any field. If compilation fails because of a field declaration, comment it
+	static log4net.ILog logger;
+	float bombScale;
+	UnityEngine.GameObject bombCasePrefab;
+	TimerComponent timerComponentPrefab;
+	BombComponent emptyComponentPrefab;
+	System.Collections.Generic.List<BombComponent> componentPrefabs;
+	System.Collections.Generic.Dictionary<Assets.Scripts.Missions.ComponentTypeEnum, BombComponent> componentPrefabDictionary;
+	System.Collections.Generic.Dictionary<Assets.Scripts.Missions.ComponentTypeEnum, float> componentWeights;
+	bool UseWeightedSelection;
+	System.Random rand;
+	System.Collections.Generic.List<BombFace> validBombFaces;
+	Bomb bomb;
+	#endregion 
+}
