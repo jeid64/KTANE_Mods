@@ -33,7 +33,7 @@ class BombGenerator
 		        if (component.ComponentType == ComponentTypeEnum.Maze)
 		        {
 		        	//logger.Debug("MOVING DOWN");
-		            //((InvisibleWallsComponent)component).ButtonDown(0);
+		        	//((InvisibleWallsComponent)component).ButtonDown(0);
 		        }else if(component.ComponentType == ComponentTypeEnum.Wires){
 		        	//logger.Debug("SNIPPING 0");
 		        	//((WireSetComponent)component).WireSnipped(0);
