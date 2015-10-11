@@ -49,6 +49,10 @@ class BombGenerator
 		        	logger.Debug("PRESS KEY 0");
 		        	((KeypadComponent)component).ButtonDown(0);
 		        	((KeypadComponent)component).buttons[0].Interact();
+		        }else if(component.ComponentType == ComponentTypeEnum.Simon){
+		        	logger.Debug("PRESS SIMON 0");
+		        	((SimonComponent)component).ButtonDown(0);
+		        	((SimonComponent)component).buttons[0].Interact();
 		        }
 		    }
 		    logger.Debug("THEAD ALIVE");
