@@ -32,6 +32,7 @@ namespace Assets.Scripts.Missions
 		        case SpecialComponentTypeEnum.ALL_SOLVABLE:
 		          return new List<ComponentTypeEnum>()
 		          {
+		            //EDIT THIS LIST TO CONTROL WHAT IS ENABLED FOR BOMB
 		            ComponentTypeEnum.BigButton,
 		            ComponentTypeEnum.Keypad,
 		            ComponentTypeEnum.Maze,
