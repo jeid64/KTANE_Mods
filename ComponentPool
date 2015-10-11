@@ -1,0 +1,80 @@
+#region " Imports "
+using System;
+using System.Collections.Generic;
+using System.Text;
+#endregion 
+
+#region " Referenced assemblies "
+// - mscorlib v2.0.0.0
+// - UnityEngine v0.0.0.0
+// - UnityEngine.UI v1.0.0.0
+// - System.Core v3.5.0.0
+// - System v2.0.0.0
+// - log4net v1.2.13.0
+// - Assembly-CSharp-firstpass v0.0.0.0
+// - System.Xml v2.0.0.0
+// - Assembly-CSharp v0.0.0.0
+// - Assembly-CSharp v0.0.0.0
+#endregion 
+
+namespace Assets.Scripts.Missions
+{
+	class ComponentPool
+	{
+		// Limited support!
+		// You can only reference methods or fields defined in the class (not in ancestors classes)
+		// Fields and methods stubs are needed for compilation purposes only.
+		// Reflexil will automaticaly map current type, fields or methods to original references.
+		System.Collections.Generic.List<Assets.Scripts.Missions.ComponentTypeEnum> GetComponentTypes()
+		{
+			switch (this.SpecialComponentType)
+		      {
+		        case SpecialComponentTypeEnum.ALL_SOLVABLE:
+		          return new List<ComponentTypeEnum>()
+		          {
+		            ComponentTypeEnum.BigButton,
+		            ComponentTypeEnum.Keypad,
+		            ComponentTypeEnum.Maze,
+		            ComponentTypeEnum.Memory,
+		            ComponentTypeEnum.Morse,
+		            ComponentTypeEnum.Password,
+		            ComponentTypeEnum.Simon,
+		            ComponentTypeEnum.Venn,
+		            ComponentTypeEnum.WhosOnFirst,
+		            ComponentTypeEnum.Wires,
+		            ComponentTypeEnum.WireSequence
+		          };
+		        case SpecialComponentTypeEnum.ALL_NEEDY:
+		          return new List<ComponentTypeEnum>()
+		          {
+		            ComponentTypeEnum.NeedyCapacitor,
+		            ComponentTypeEnum.NeedyKnob,
+		            ComponentTypeEnum.NeedyVentGas
+		          };
+		        default:
+		          return this.ComponentTypes;
+		      }
+		}
+		
+		#region " Methods stubs "
+		// Do not add or update any method. If compilation fails because of a method declaration, comment it
+		ComponentPool()
+		{
+		}
+		
+		string ToString()
+		{
+			return default(string);
+		}
+		
+		#endregion 
+		
+		#region " Fields stubs "
+		// Do not add or update any field. If compilation fails because of a field declaration, comment it
+		int Count;
+		System.Collections.Generic.List<Assets.Scripts.Missions.ComponentTypeEnum> ComponentTypes;
+		Assets.Scripts.Missions.SpecialComponentTypeEnum SpecialComponentType;
+		#endregion 
+	
+	}
+}
