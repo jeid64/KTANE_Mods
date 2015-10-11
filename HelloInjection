@@ -28,59 +28,71 @@ class BombGenerator
 	// Reflexil will automaticaly map current type, fields or methods to original references.
 	void HelloInjection()
 	{
-		logger.Debug("INSIDE THREAD");
-		var client = new NamedPipeClientStream("KTANEpipe");
-            	client.Connect();
-            	//reading format [NUMBER][TYPE]
-            	StreamReader reader = new StreamReader(client);
-            	StreamWriter writer = new StreamWriter(client);
-            	
-		while(true){
-		    string input = reader.ReadLine();
-		    logger.DebugFormat("READ IN {0}",input);
-		    foreach (BombComponent component in this.bomb.BombComponents)
-		    {
-		        if ((component.ComponentType == ComponentTypeEnum.Maze) && (input.contains("maze")))
-		        {
-		        	int direction = Int32.Parse(input.substring(0,1));
-		        	logger.DebugFormat("MOVING UP to {0}",direction);
-		        	((InvisibleWallsComponent)component).ButtonDown(direction);
-		        	int X = ((InvisibleWallsComponent)component).GetCurrentCell().X;
-		        	int Y = ((InvisibleWallsComponent)component).GetCurrentCell().Y;
-		        	logger.DebugFormat("NOW AT POSITION {0},{1}",X,Y);
-		        	logger.DebugFormat("Hit WALL: {0}",
-		        		((InvisibleWallsComponent)component).WallExistsFromCurrentInDirection(direction));
-		        }else if((component.ComponentType == ComponentTypeEnum.Wires) && (input.contains("wire"))){
-		        	//logger.Debug("SNIPPING 0");
-		        	//((WireSetComponent)component).WireSnipped(0);
-		        }else if((component.ComponentType == ComponentTypeEnum.BigButton) && (input.contains("button"))){
-		        	int option = Int32.Parse(input.substring(0,1));
-		        	if(option>=1){
-		        		logger.Debug("START HOLDING");
-		        		((ButtonComponent)component).UpdatePublic();
-		        		logger.DebugFormat("Color is: {0}",((ButtonComponent)component).ActiveColor);
-		        	}else{
-		        		logger.Debug("STOP HOLDING");
-		        		((ButtonComponent)component).OnRelease();
-		        	}
-		        }else if((component.ComponentType == ComponentTypeEnum.Keypad) && input.contains("keypad")){
-		        	int key = Int32.Parse(input.substring(0,1));
-		        	logger.DebugFormat("PRESS KEY {0}",key);
-		        	((KeypadComponent)component).ButtonDown(key);
-		        	((KeypadComponent)component).buttons[key].Interact();
-		        	logger.DebugFormat("Button WORKED: {0}",
-		        	((KeypadComponent)component).buttons[key].IsStayingDown);
-		        }else if((component.ComponentType == ComponentTypeEnum.Simon) && input.contains("simon")){
-		        	int simonkey = Int32.Parse(input.substring(0,1));
-		        	logger.DebugFormat("PRESS SIMON {0}",simonkey);
-		        	((SimonComponent)component).ButtonDown(simonkey);
-		        	((SimonComponent)component).buttons[simonkey].Interact();
-		        }
-		    }
-		    logger.Debug("THEAD ALIVE");
-		    System.Threading.Thread.Sleep(1000);    
-		}
-	}
+	      logger.Debug("INSIDE THREAD");
+	      var client = new NamedPipeClientStream("KTANEpipe");
+	      client.Connect();
+	      //reading format [NUMBER][TYPE]
+	      StreamReader reader = new StreamReader(client);
+	      StreamWriter writer = new StreamWriter(client);
+	
+	      while (true)
+	      {
+	          string input = reader.ReadLine();
+	          logger.DebugFormat("READ IN {0}", input);
+	          foreach (BombComponent component in this.bomb.BombComponents)
+	          {
+	              if ((component.ComponentType == ComponentTypeEnum.Maze) && (input.Contains("maze")))
+	              {
+	                  int direction = Int32.Parse(input.Substring(0, 1));
+	                  logger.DebugFormat("MOVING UP to {0}", direction);
+	                  ((InvisibleWallsComponent)component).ButtonDown(direction);
+	                  int X = ((InvisibleWallsComponent)component).GetCurrentCell().X;
+	                  int Y = ((InvisibleWallsComponent)component).GetCurrentCell().Y;
+	                  logger.DebugFormat("NOW AT POSITION {0},{1}", X, Y);
+	                  logger.DebugFormat("Hit WALL: {0}",
+	                      ((InvisibleWallsComponent)component).WallExistsFromCurrentInDirection(direction));
+	              }
+	              else if ((component.ComponentType == ComponentTypeEnum.Wires) && (input.Contains("wire")))
+	              {
+	                  //logger.Debug("SNIPPING 0");
+	                  //((WireSetComponent)component).WireSnipped(0);
+	              }
+	              else if ((component.ComponentType == ComponentTypeEnum.BigButton) && (input.Contains("button")))
+	              {
+	                  int option = Int32.Parse(input.Substring(0, 1));
+	                  if (option >= 1)
+	                  {
+	                      logger.Debug("START HOLDING");
+	                      ((ButtonComponent)component).UpdatePublic();
+	                      logger.DebugFormat("Color is: {0}", ((ButtonComponent)component).ActiveColor);
+	                  }
+	                  else
+	                  {
+	                      logger.Debug("STOP HOLDING");
+	                      ((ButtonComponent)component).OnRelease();
+	                  }
+	              }
+	              else if ((component.ComponentType == ComponentTypeEnum.Keypad) && input.Contains("keypad"))
+	              {
+	                  int key = Int32.Parse(input.Substring(0, 1));
+	                  logger.DebugFormat("PRESS KEY {0}", key);
+	                  ((KeypadComponent)component).ButtonDown(key);
+	                  ((KeypadComponent)component).buttons[key].Interact();
+	                  logger.DebugFormat("Button WORKED: {0}",
+	                  ((KeypadComponent)component).buttons[key].IsStayingDown);
+	              }
+	              else if ((component.ComponentType == ComponentTypeEnum.Simon) && input.Contains("simon"))
+	              {
+	                  int simonkey = Int32.Parse(input.Substring(0, 1));
+	                  logger.DebugFormat("PRESS SIMON {0}", simonkey);
+	                  ((SimonComponent)component).ButtonDown(simonkey);
+	                  ((SimonComponent)component).buttons[simonkey].Interact();
+	              }
+	          }
+	          logger.Debug("THEAD ALIVE");
+	          System.Threading.Thread.Sleep(1000);
+	      }
+	  }
 	
 	#region " Methods stubs "
 	// Do not add or update any method. If compilation fails because of a method declaration, comment it
