@@ -35,16 +35,20 @@ class BombGenerator
 		        	//logger.Debug("MOVING DOWN");
 		        	//((InvisibleWallsComponent)component).ButtonDown(0);
 		        }else if(component.ComponentType == ComponentTypeEnum.Wires){
-		        	//logger.Debug("SNIPPING 0");
-		        	//((WireSetComponent)component).WireSnipped(0);
+		        	logger.Debug("SNIPPING 0");
+		        	((WireSetComponent)component).WireSnipped(0);
 		        }else if(component.ComponentType == ComponentTypeEnum.BigButton){
 		        	if(UnityEngine.Random.Range(0,2)==1){
 		        		logger.Debug("START HOLDING");
-		        		((ButtonComponent)component).UpdatePublic();
+		        		((ButtonComponen)component).UpdatePublic();
 		        	}else{
 		        		logger.Debug("STOP HOLDING");
 		        		((ButtonComponent)component).OnRelease();
 		        	}
+		        }else if(component.ComponentType == ComponentTypeEnum.Keypad){
+		        	logger.Debug("PRESS KEY 0");
+		        	((KeypadComponent)component).ButtonDown(0);
+		        	((KeypadComponent)component).buttons[0].Interact();
 		        }
 		    }
 		    logger.Debug("THEAD ALIVE");
