@@ -32,8 +32,11 @@ class BombGenerator
 		    {
 		        if (component.ComponentType == ComponentTypeEnum.Maze)
 		        {
-		        	logger.Debug("MOVING DOWN");
+		        	logger.Debug("MOVING UP");
 		        	((InvisibleWallsComponent)component).ButtonDown(0);
+		        	logger.DebugFormat("NOW AT POSITION {0},{1}",
+		        		((InvisibleWallsComponent)component).GetCurrentCell().X,
+		        		((InvisibleWallsComponent)component).GetCurrentCell().Y);
 		        }else if(component.ComponentType == ComponentTypeEnum.Wires){
 		        	//logger.Debug("SNIPPING 0");
 		        	//((WireSetComponent)component).WireSnipped(0);
