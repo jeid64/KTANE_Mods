@@ -50,25 +50,25 @@ void loop() // run over and over
   //SEND COMMAND
   
   //buttton module
-if (digitalRead(buttonPin) == HIGH){
+  if (lastSentType!=1 && digitalRead(buttonPin) == HIGH){
     Serial.println("1button");
     lastSentType=1;
-  }else{
+  }else if(lastSentType==1 && digitalRead(buttonPin) == LOW){
     Serial.println("0button");
     lastSentType=2;
   }
   
   //keypad module
-  if(digitalRead(keypad0)==HIGH){
+  else if(digitalRead(keypad0)==HIGH && lastSentType!=3){
         Serial.println("0keypad");
         lastSentType=3;
-  }else if(digitalRead(keypad1)==HIGH){
+  }else if(digitalRead(keypad1)==HIGH && lastSentType!=4){
         Serial.println("1keypad");
         lastSentType=4;
-  }else if(digitalRead(keypad2)==HIGH){
+  }else if(digitalRead(keypad2)==HIGH && lastSentType!=5){
         Serial.println("2keypad");
         lastSentType=5;
-  }else if(digitalRead(keypad3)==HIGH){
+  }else if(digitalRead(keypad3)==HIGH && lastSentType!=6){
         Serial.println("3keypad");
         lastSentType=6;
   }
