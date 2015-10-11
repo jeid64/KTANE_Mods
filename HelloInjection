@@ -39,7 +39,7 @@ class BombGenerator
 		        	//((WireSetComponent)component).WireSnipped(0);
 		        }else if(component.ComponentType == ComponentTypeEnum.BigButton){
 		        	logger.Debug("START HOLDING");
-		        	((ButtonComponent)component).StartHolding();
+		        	((ButtonComponent)component).UpdatePublic();
 		        }
 		    }
 		    logger.Debug("THEAD ALIVE");
