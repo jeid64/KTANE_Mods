@@ -52,6 +52,8 @@ class BombGenerator
 		        	logger.Debug("PRESS KEY 0");
 		        	((KeypadComponent)component).ButtonDown(0);
 		        	((KeypadComponent)component).buttons[0].Interact();
+		        	logger.DebugFormat("Button WORKED: {0}",
+		        	((KeypadComponent)component).buttons[0].IsStayingDown);
 		        }else if(component.ComponentType == ComponentTypeEnum.Simon){
 		        	logger.Debug("PRESS SIMON 0");
 		        	((SimonComponent)component).ButtonDown(0);
