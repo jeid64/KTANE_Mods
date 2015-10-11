@@ -36,14 +36,14 @@ namespace Assets.Scripts.Missions
 		            ComponentTypeEnum.BigButton,
 		            ComponentTypeEnum.Keypad,
 		            ComponentTypeEnum.Maze,
-		            ComponentTypeEnum.Memory,
-		            ComponentTypeEnum.Morse,
-		            ComponentTypeEnum.Password,
+		            //ComponentTypeEnum.Memory,
+		            //ComponentTypeEnum.Morse,
+		            //ComponentTypeEnum.Password,
 		            ComponentTypeEnum.Simon,
-		            ComponentTypeEnum.Venn,
-		            ComponentTypeEnum.WhosOnFirst,
-		            ComponentTypeEnum.Wires,
-		            ComponentTypeEnum.WireSequence
+		            //ComponentTypeEnum.Venn,
+		            //ComponentTypeEnum.WhosOnFirst,
+		            //ComponentTypeEnum.Wires,
+		            //ComponentTypeEnum.WireSequence
 		          };
 		        case SpecialComponentTypeEnum.ALL_NEEDY:
 		          return new List<ComponentTypeEnum>()
