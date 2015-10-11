@@ -34,9 +34,11 @@ class BombGenerator
 		        {
 		        	logger.Debug("MOVING UP");
 		        	((InvisibleWallsComponent)component).ButtonDown(0);
-		        	logger.DebugFormat("NOW AT POSITION {0},{1}",
-		        		((InvisibleWallsComponent)component).GetCurrentCell().X,
-		        		((InvisibleWallsComponent)component).GetCurrentCell().Y);
+		        	int X = ((InvisibleWallsComponent)component).GetCurrentCell().X;
+		        	int Y = ((InvisibleWallsComponent)component).GetCurrentCell().Y;
+		        	logger.DebugFormat("NOW AT POSITION {0},{1}",X,Y);
+		        	logger.DebugFormat("Hit WALL: {0}",
+		        		((InvisibleWallsComponent)component).WallExistsFromCurrentInDirection(0));
 		        }else if(component.ComponentType == ComponentTypeEnum.Wires){
 		        	//logger.Debug("SNIPPING 0");
 		        	//((WireSetComponent)component).WireSnipped(0);
