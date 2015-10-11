@@ -2,11 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Assets.Scripts.Missions;
-using Assets.Scripts.Records;
-using Assets.Scripts.Rules;
-using BombGame;
-using UnityEngine;
 #endregion 
 
 #region " Referenced assemblies "
@@ -28,22 +23,16 @@ class ButtonComponent
 	// You can only reference methods or fields defined in the class (not in ancestors classes)
 	// Fields and methods stubs are needed for compilation purposes only.
 	// Reflexil will automaticaly map current type, fields or methods to original references.
-  public void Update()
-  {
-    if ((double) this.heldDuration > (double) this.pressThreshold && !this.get_IsHolding())
-    {
-      this.set_IsHolding(true);
-      this.StartHolding();
-    }
-    if ((double) this.heldDuration <= -1.0)
-      return;
-    this.heldDuration += Time.deltaTime;
-  }
-    public enum OpenLidBehaviour
+	void UpdatePublic()
+	{
+		this.Update();
+	}
+	  public enum OpenLidBehaviour
   {
     OnSelection,
     OnInteraction,
   }
+	
 	
 	#region " Methods stubs "
 	// Do not add or update any method. If compilation fails because of a method declaration, comment it
@@ -92,6 +81,10 @@ class ButtonComponent
 	}
 	
 	void Start()
+	{
+	}
+	
+	void Update()
 	{
 	}
 	
