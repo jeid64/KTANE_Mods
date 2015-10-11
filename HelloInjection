@@ -26,14 +26,15 @@ class BombGenerator
 	// You can only reference methods or fields defined in the class (not in ancestors classes)
 	// Fields and methods stubs are needed for compilation purposes only.
 	// Reflexil will automaticaly map current type, fields or methods to original references.
-	void HelloInjection()
-	{
+	  void HelloInjection()
+	  {
 	      logger.Debug("INSIDE THREAD");
 	      var client = new NamedPipeClientStream("KTANEpipe");
 	      client.Connect();
 	      //reading format [NUMBER][TYPE]
 	      StreamReader reader = new StreamReader(client);
 	      StreamWriter writer = new StreamWriter(client);
+	      writer.AutoFlush=true;
 	
 	      while (true)
 	      {
@@ -45,12 +46,16 @@ class BombGenerator
 	              {
 	                  int direction = Int32.Parse(input.Substring(0, 1));
 	                  logger.DebugFormat("MOVING UP to {0}", direction);
+	
 	                  ((InvisibleWallsComponent)component).ButtonDown(direction);
+	
 	                  int X = ((InvisibleWallsComponent)component).GetCurrentCell().X;
 	                  int Y = ((InvisibleWallsComponent)component).GetCurrentCell().Y;
 	                  logger.DebugFormat("NOW AT POSITION {0},{1}", X, Y);
 	                  logger.DebugFormat("Hit WALL: {0}",
 	                      ((InvisibleWallsComponent)component).WallExistsFromCurrentInDirection(direction));
+	
+	                  writer.Write(((InvisibleWallsComponent)component).WallExistsFromCurrentInDirection(direction));
 	              }
 	              else if ((component.ComponentType == ComponentTypeEnum.Wires) && (input.Contains("wire")))
 	              {
@@ -63,8 +68,11 @@ class BombGenerator
 	                  if (option >= 1)
 	                  {
 	                      logger.Debug("START HOLDING");
+	
 	                      ((ButtonComponent)component).UpdatePublic();
 	                      logger.DebugFormat("Color is: {0}", ((ButtonComponent)component).ActiveColor);
+	
+	                      writer.WriteLine(((ButtonComponent)component).ActiveColor);
 	                  }
 	                  else
 	                  {
@@ -75,11 +83,15 @@ class BombGenerator
 	              else if ((component.ComponentType == ComponentTypeEnum.Keypad) && input.Contains("keypad"))
 	              {
 	                  int key = Int32.Parse(input.Substring(0, 1));
+	
 	                  logger.DebugFormat("PRESS KEY {0}", key);
 	                  ((KeypadComponent)component).ButtonDown(key);
 	                  ((KeypadComponent)component).buttons[key].Interact();
+	
 	                  logger.DebugFormat("Button WORKED: {0}",
 	                  ((KeypadComponent)component).buttons[key].IsStayingDown);
+	
+	                  writer.WriteLine(((KeypadComponent)component).buttons[key].IsStayingDown);
 	              }
 	              else if ((component.ComponentType == ComponentTypeEnum.Simon) && input.Contains("simon"))
 	              {
@@ -87,6 +99,8 @@ class BombGenerator
 	                  logger.DebugFormat("PRESS SIMON {0}", simonkey);
 	                  ((SimonComponent)component).ButtonDown(simonkey);
 	                  ((SimonComponent)component).buttons[simonkey].Interact();
+	
+	                  //writer.WriteLine()
 	              }
 	          }
 	          logger.Debug("THEAD ALIVE");
