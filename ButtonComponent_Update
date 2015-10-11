@@ -1,0 +1,176 @@
+#region " Imports "
+using System;
+using System.Collections.Generic;
+using System.Text;
+using Assets.Scripts.Missions;
+using Assets.Scripts.Records;
+using Assets.Scripts.Rules;
+using BombGame;
+using UnityEngine;
+#endregion 
+
+#region " Referenced assemblies "
+// - mscorlib v2.0.0.0
+// - UnityEngine v0.0.0.0
+// - UnityEngine.UI v1.0.0.0
+// - System.Core v3.5.0.0
+// - System v2.0.0.0
+// - log4net v1.2.13.0
+// - Assembly-CSharp-firstpass v0.0.0.0
+// - System.Xml v2.0.0.0
+// - Assembly-CSharp v0.0.0.0
+// - Assembly-CSharp v0.0.0.0
+#endregion 
+
+class ButtonComponent
+{
+	// Limited support!
+	// You can only reference methods or fields defined in the class (not in ancestors classes)
+	// Fields and methods stubs are needed for compilation purposes only.
+	// Reflexil will automaticaly map current type, fields or methods to original references.
+  public void Update()
+  {
+    if ((double) this.heldDuration > (double) this.pressThreshold && !this.IsHolding)
+    {
+      this.IsHolding = true;
+      this.StartHolding();
+    }
+    if ((double) this.heldDuration <= -1.0)
+      return;
+    this.heldDuration += Time.deltaTime;
+  }
+    public enum OpenLidBehaviour
+  {
+    OnSelection,
+    OnInteraction,
+  }
+	
+	#region " Methods stubs "
+	// Do not add or update any method. If compilation fails because of a method declaration, comment it
+	ButtonComponent()
+	{
+	}
+	
+	BombGame.ButtonColor get_ButtonColor()
+	{
+		return default(BombGame.ButtonColor);
+	}
+	
+	void set_ButtonColor(BombGame.ButtonColor @value)
+	{
+	}
+	
+	BombGame.ButtonInstruction get_ButtonInstruction()
+	{
+		return default(BombGame.ButtonInstruction);
+	}
+	
+	void set_ButtonInstruction(BombGame.ButtonInstruction @value)
+	{
+	}
+	
+	BombGame.BigButtonLEDColor get_IndicatorColor()
+	{
+		return default(BombGame.BigButtonLEDColor);
+	}
+	
+	void set_IndicatorColor(BombGame.BigButtonLEDColor @value)
+	{
+	}
+	
+	bool get_IsHolding()
+	{
+		return default(bool);
+	}
+	
+	void set_IsHolding(bool @value)
+	{
+	}
+	
+	void Awake()
+	{
+	}
+	
+	void Start()
+	{
+	}
+	
+	bool OnModuleInteract()
+	{
+		return default(bool);
+	}
+	
+	void OnModuleSelect()
+	{
+	}
+	
+	void OnModuleDeselect(Selectable newSelectable)
+	{
+	}
+	
+	void OnButtonDeselect(Selectable newSelectable)
+	{
+	}
+	
+	void OnButtonCancel()
+	{
+	}
+	
+	void OpenLid()
+	{
+	}
+	
+	void CloseLid()
+	{
+	}
+	
+	void SetButtonInstruction(BombGame.ButtonInstruction val)
+	{
+	}
+	
+	void OnHold()
+	{
+	}
+	
+	void StartHolding()
+	{
+	}
+	
+	void OnRelease()
+	{
+	}
+	
+	void SetIndicatorOff()
+	{
+	}
+	
+	void SetIndicatorColor(BombGame.BigButtonLEDColor color)
+	{
+	}
+	
+	void HandleRelease(float duration)
+	{
+	}
+	
+	#endregion 
+	
+	#region " Fields stubs "
+	// Do not add or update any field. If compilation fails because of a field declaration, comment it
+	PressableButton button;
+	UnityEngine.GameObject LED_Off;
+	UnityEngine.GameObject LED_Red;
+	UnityEngine.GameObject LED_White;
+	UnityEngine.GameObject LED_Blue;
+	UnityEngine.GameObject LED_Yellow;
+	OpenLidBehaviour LidBehaviour;
+	UnityEngine.Animator LidAnimator;
+	float pressThreshold;
+	float heldDuration;
+	bool isLidOpen;
+	Selectable moduleSelectable;
+	Selectable buttonSelectable;
+	System.Collections.Generic.List<BombGame.BigButtonLEDColor> ValidLightUpColors;
+	public bool IsHolding;
+	#endregion 
+
+}
