@@ -1,0 +1,110 @@
+#region " Imports "
+using System;
+using System.Collections.Generic;
+using System.Text;
+#endregion 
+
+#region " Referenced assemblies "
+// - mscorlib v2.0.0.0
+// - UnityEngine v0.0.0.0
+// - UnityEngine.UI v1.0.0.0
+// - System.Core v3.5.0.0
+// - System v2.0.0.0
+// - log4net v1.2.13.0
+// - Assembly-CSharp-firstpass v0.0.0.0
+// - System.Xml v2.0.0.0
+// - Assembly-CSharp v0.0.0.0
+// - Assembly-CSharp v0.0.0.0
+#endregion 
+
+class InvisibleWallsComponent
+{
+	// Limited support!
+	// You can only reference methods or fields defined in the class (not in ancestors classes)
+	// Fields and methods stubs are needed for compilation purposes only.
+	// Reflexil will automaticaly map current type, fields or methods to original references.
+	MazeCell GetCurrentCell()
+	{
+		return currentCell;
+	}
+	
+	#region " Methods stubs "
+	// Do not add or update any method. If compilation fails because of a method declaration, comment it
+	InvisibleWallsComponent()
+	{
+	}
+	
+	static InvisibleWallsComponent()
+	{
+	}
+	
+	void Awake()
+	{
+	}
+	
+	void InitButtons()
+	{
+	}
+	
+	void InitState()
+	{
+	}
+	
+	MazeCell GetRandomCell()
+	{
+		return default(MazeCell);
+	}
+	
+	void InitCells()
+	{
+	}
+	
+	void Activate()
+	{
+	}
+	
+	void HandleDirection(BombGame.Direction direction)
+	{
+	}
+	
+	void MoveToCell(int x, int y, BombGame.Direction direction)
+	{
+	}
+	
+	bool ButtonDown(int index)
+	{
+		return default(bool);
+	}
+	
+	bool ButtonUp(int index)
+	{
+		return default(bool);
+	}
+	
+	bool IsLocked()
+	{
+		return default(bool);
+	}
+	
+	#endregion 
+	
+	#region " Fields stubs "
+	// Do not add or update any field. If compilation fails because of a field declaration, comment it
+	static int MAX_CELLS;
+	static float MARGIN;
+	static log4net.ILog logger;
+	UnityEngine.GameObject Background;
+	InvisibleMazeCell CellProto;
+	UnityEngine.GameObject ScreenOn;
+	UnityEngine.GameObject ScreenOff;
+	System.Collections.Generic.List<System.Collections.Generic.List<InvisibleMazeCell>> Cells;
+	System.Collections.Generic.Stack<InvisibleMazeCell> cellPath;
+	System.Collections.Generic.List<KeypadButton> Buttons;
+	bool useHidden;
+	Maze maze;
+	MazeCell currentCell;
+	MazeCell previousCell;
+	MazeCell goalCell;
+	#endregion 
+
+}
