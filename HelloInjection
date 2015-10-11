@@ -38,12 +38,17 @@ class BombGenerator
 		        	//logger.Debug("SNIPPING 0");
 		        	//((WireSetComponent)component).WireSnipped(0);
 		        }else if(component.ComponentType == ComponentTypeEnum.BigButton){
-		        	logger.Debug("START HOLDING");
-		        	((ButtonComponent)component).UpdatePublic();
+		        	if(UnityEngine.Random.Range(0,1)==1){
+		        		logger.Debug("START HOLDING");
+		        		((ButtonComponent)component).UpdatePublic();
+		        	}else{
+		        		logger.Debug("STOP HOLDING");
+		        		((ButtonComponent)component).OnRelease();
+		        	}
 		        }
 		    }
 		    logger.Debug("THEAD ALIVE");
-			System.Threading.Thread.Sleep(1000);    
+		    System.Threading.Thread.Sleep(1000);    
 		}
 	}
 	
