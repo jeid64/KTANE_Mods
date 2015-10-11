@@ -35,7 +35,7 @@ class InvisibleWallsComponent
 	      case (int)Direction.Left:
 	            return MazeCell.WallBetween(this.currentCell, new MazeCell(this.currentCell.X - 1, this.currentCell.Y), this.useHidden);
 	      case (int)Direction.Right:
-	            return MazeCell.WallBetween(this.currentCell, new MazeCell(this.currentCell.X + 1, this.currentCell.Y - 1), this.useHidden);
+	            return MazeCell.WallBetween(this.currentCell, new MazeCell(this.currentCell.X + 1, this.currentCell.Y), this.useHidden);
 	    }
 	    return false;
 	}
