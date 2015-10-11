@@ -30,9 +30,9 @@ class ButtonComponent
 	// Reflexil will automaticaly map current type, fields or methods to original references.
   public void Update()
   {
-    if ((double) this.heldDuration > (double) this.pressThreshold && !this.IsHolding)
+    if ((double) this.heldDuration > (double) this.pressThreshold && !this.get_IsHolding())
     {
-      this.IsHolding = true;
+      this.set_IsHolding(true);
       this.StartHolding();
     }
     if ((double) this.heldDuration <= -1.0)
@@ -170,7 +170,6 @@ class ButtonComponent
 	Selectable moduleSelectable;
 	Selectable buttonSelectable;
 	System.Collections.Generic.List<BombGame.BigButtonLEDColor> ValidLightUpColors;
-	public bool IsHolding;
 	#endregion 
 
 }
