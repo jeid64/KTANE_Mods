@@ -1,6 +1,8 @@
 #region " Imports "
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Pipes;
 using System.Text;
 using Assets.Scripts.Missions;
 #endregion 
@@ -27,23 +29,33 @@ class BombGenerator
 	void HelloInjection()
 	{
 		logger.Debug("INSIDE THREAD");
+		var client = new NamedPipeClientStream("KTANEpipe");
+            	client.Connect();
+            	//reading format [NUMBER][TYPE]
+            	StreamReader reader = new StreamReader(client);
+            	StreamWriter writer = new StreamWriter(client);
+            	
 		while(true){
+		    string input = reader.ReadLine();
+		    logger.DebugFormat("READ IN {0}",input);
 		    foreach (BombComponent component in this.bomb.BombComponents)
 		    {
-		        if (component.ComponentType == ComponentTypeEnum.Maze)
+		        if ((component.ComponentType == ComponentTypeEnum.Maze) && (input.contains("maze")))
 		        {
-		        	logger.Debug("MOVING UP");
-		        	((InvisibleWallsComponent)component).ButtonDown(0);
+		        	int direction = Int32.Parse(input.substring(0,1));
+		        	logger.DebugFormat("MOVING UP to {0}",direction);
+		        	((InvisibleWallsComponent)component).ButtonDown(direction);
 		        	int X = ((InvisibleWallsComponent)component).GetCurrentCell().X;
 		        	int Y = ((InvisibleWallsComponent)component).GetCurrentCell().Y;
 		        	logger.DebugFormat("NOW AT POSITION {0},{1}",X,Y);
 		        	logger.DebugFormat("Hit WALL: {0}",
-		        		((InvisibleWallsComponent)component).WallExistsFromCurrentInDirection(0));
-		        }else if(component.ComponentType == ComponentTypeEnum.Wires){
+		        		((InvisibleWallsComponent)component).WallExistsFromCurrentInDirection(direction));
+		        }else if((component.ComponentType == ComponentTypeEnum.Wires) && (input.contains("wire"))){
 		        	//logger.Debug("SNIPPING 0");
 		        	//((WireSetComponent)component).WireSnipped(0);
-		        }else if(component.ComponentType == ComponentTypeEnum.BigButton){
-		        	if(UnityEngine.Random.Range(0,2)==1){
+		        }else if((component.ComponentType == ComponentTypeEnum.BigButton) && (input.contains("button"))){
+		        	int option = Int32.Parse(input.substring(0,1));
+		        	if(option>=1){
 		        		logger.Debug("START HOLDING");
 		        		((ButtonComponent)component).UpdatePublic();
 		        		logger.DebugFormat("Color is: {0}",((ButtonComponent)component).ActiveColor);
@@ -51,16 +63,18 @@ class BombGenerator
 		        		logger.Debug("STOP HOLDING");
 		        		((ButtonComponent)component).OnRelease();
 		        	}
-		        }else if(component.ComponentType == ComponentTypeEnum.Keypad){
-		        	logger.Debug("PRESS KEY 0");
-		        	((KeypadComponent)component).ButtonDown(0);
-		        	((KeypadComponent)component).buttons[0].Interact();
+		        }else if((component.ComponentType == ComponentTypeEnum.Keypad) && input.contains("keypad")){
+		        	int key = Int32.Parse(input.substring(0,1));
+		        	logger.DebugFormat("PRESS KEY {0}",key);
+		        	((KeypadComponent)component).ButtonDown(key);
+		        	((KeypadComponent)component).buttons[key].Interact();
 		        	logger.DebugFormat("Button WORKED: {0}",
-		        	((KeypadComponent)component).buttons[0].IsStayingDown);
-		        }else if(component.ComponentType == ComponentTypeEnum.Simon){
-		        	logger.Debug("PRESS SIMON 0");
-		        	((SimonComponent)component).ButtonDown(0);
-		        	((SimonComponent)component).buttons[0].Interact();
+		        	((KeypadComponent)component).buttons[key].IsStayingDown);
+		        }else if((component.ComponentType == ComponentTypeEnum.Simon) && input.contains("simon")){
+		        	int simonkey = Int32.Parse(input.substring(0,1));
+		        	logger.DebugFormat("PRESS SIMON {0}",simonkey);
+		        	((SimonComponent)component).ButtonDown(simonkey);
+		        	((SimonComponent)component).buttons[simonkey].Interact();
 		        }
 		    }
 		    logger.Debug("THEAD ALIVE");
