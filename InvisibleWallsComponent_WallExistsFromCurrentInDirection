@@ -29,13 +29,13 @@ class InvisibleWallsComponent
 		switch (direction)
 	    {
 	      case (int)Direction.Up:
-	            return MazeCell.WallBetween(this.currentCell, new MazeCell(this.currentCell.X, this.currentCell.Y - 1), this.useHidden);
+	            return currentCell.WallAbove;
 	      case (int)Direction.Down:
-	            return MazeCell.WallBetween(this.currentCell, new MazeCell(this.currentCell.X, this.currentCell.Y + 1), this.useHidden);
+	            return currentCell.WallBelow;
 	      case (int)Direction.Left:
-	            return MazeCell.WallBetween(this.currentCell, new MazeCell(this.currentCell.X - 1, this.currentCell.Y), this.useHidden);
+	            return currentCell.WallLeft;
 	      case (int)Direction.Right:
-	            return MazeCell.WallBetween(this.currentCell, new MazeCell(this.currentCell.X + 1, this.currentCell.Y), this.useHidden);
+	            return currentCell.WallRight;
 	    }
 	    return false;
 	}
