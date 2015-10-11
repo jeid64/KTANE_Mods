@@ -88,8 +88,8 @@ class BombGenerator
 	                  int key = Int32.Parse(input.Substring(0, 1));
 	
 	                  logger.DebugFormat("PRESS KEY {0}", key);
-	                  ((KeypadComponent)component).ButtonDown(key);
 	                  ((KeypadComponent)component).buttons[key].Interact();
+	                  ((KeypadComponent)component).buttons[key].InteractEnded();
 	
 	                  logger.DebugFormat("Button WORKED: {0}",
 	                  ((KeypadComponent)component).buttons[key].IsStayingDown);
