@@ -45,7 +45,8 @@ class BombGenerator
 		        }else if(component.ComponentType == ComponentTypeEnum.BigButton){
 		        	if(UnityEngine.Random.Range(0,2)==1){
 		        		logger.Debug("START HOLDING");
-		        		((ButtonComponen)component).UpdatePublic();
+		        		((ButtonComponent)component).UpdatePublic();
+		        		logger.DebugFormat("Color is: {0}",((ButtonComponent)component).ActiveColor);
 		        	}else{
 		        		logger.Debug("STOP HOLDING");
 		        		((ButtonComponent)component).OnRelease();
