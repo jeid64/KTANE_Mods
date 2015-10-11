@@ -81,6 +81,8 @@ class BombGenerator
 	                  {
 	                      logger.Debug("STOP HOLDING");
 	                      ((ButtonComponent)component).OnRelease();
+	                      
+	                      writer.WriteLine(component.IsSolved);
 	                  }
 	              }
 	              else if ((component.ComponentType == ComponentTypeEnum.Keypad) && input.Contains("keypad"))
