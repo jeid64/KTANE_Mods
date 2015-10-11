@@ -73,6 +73,7 @@ class BombGenerator
 	                      logger.Debug("START HOLDING");
 	
 	                      ((ButtonComponent)component).UpdatePublic();
+	                      ((ButtonComponent)component).button.Interact();
 	                      logger.DebugFormat("Color is: {0}", ((ButtonComponent)component).ActiveColor);
 	
 	                      writer.WriteLine(((ButtonComponent)component).ActiveColor);
