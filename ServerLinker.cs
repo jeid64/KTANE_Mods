@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 using System.IO.Ports;
 
 namespace KTANECommunication
@@ -13,10 +14,14 @@ namespace KTANECommunication
     {
         static void Main(string[] args)
         {
-            var server = new NamedPipeServerStream("KTANEpipe");
-            server.WaitForConnection();
-            StreamReader reader = new StreamReader(server);
-            StreamWriter writer = new StreamWriter(server);
+            var pipein = new NamedPipeServerStream("KTANEin");
+            var pipeout = new NamedPipeClientStream("KTANEout");
+            pipein.WaitForConnection();
+            Thread.Sleep(1000);
+            pipeout.Connect();
+            Console.WriteLine("pipes open");
+            StreamReader reader = new StreamReader(pipeout);
+            StreamWriter writer = new StreamWriter(pipein);
             writer.AutoFlush = true;
 
             SerialPort port = new SerialPort("COM5", 9600);
@@ -25,10 +30,18 @@ namespace KTANECommunication
             while (true)
             {
                 string hardwareInput = port.ReadLine();
-                writer.WriteLine("0maze");
+                Console.WriteLine("Hardware "+hardwareInput);
+                writer.WriteLine(hardwareInput);
+
                 string result = reader.ReadLine();
-                Console.WriteLine(result);
-                port.Write(result);
+                Console.WriteLine("Response "+result);
+
+                //port.DiscardInBuffer();
+                //port.DiscardOutBuffer();
+                //Thread.Sleep(1000);
+                //port.WriteLine(result);
+
+                Thread.Sleep(1000);
             }
         }
     }
