@@ -2,7 +2,6 @@ byte inputData = 0;
 
 int lastEvent = 0;
 
-const int ButtonPin = 12;
 const int ButtonSucessPin = 13;
 const int ButtonColorPinR = 11;
 const int ButtonColorPinG = 10;
@@ -13,24 +12,56 @@ void setup() {
   Serial.begin(9600);
   
   //initalize pins
-  pinMode(ButtonPin, INPUT);     
   pinMode(ButtonColorPinR, OUTPUT);     
   pinMode(ButtonColorPinG, OUTPUT);     
   pinMode(ButtonColorPinB, OUTPUT);     
   pinMode(ButtonSucessPin, OUTPUT);     
-
+  
+  pinMode(A5, INPUT_PULLUP); // sets analog pin for input 
 }
 
 void loop() {
   //big button pressed
-  if(lastEvent!=1 && digitalRead(ButtonPin)==HIGH){
+  int buttonPressed = analogToButton(analogRead(5));
+  
+  if(lastEvent!=1 && buttonPressed==1){
     Serial.println("1button");
     lastEvent = 1;
   }
   //big button depressed
-  else if(lastEvent==1 && digitalRead(ButtonPin)==LOW){
+  else if(lastEvent==1 && buttonPressed==0){
     Serial.println("0button");
     lastEvent = 2;
+  }
+  
+  if(lastEvent!=3 && buttonPressed==2){
+    Serial.println("0keypad");
+    lastEvent = 3;
+  }else if(lastEvent!=4 && buttonPressed==3){
+    Serial.println("1keypad");
+    lastEvent = 4;
+  }else if(lastEvent!=5 && buttonPressed==4){
+    Serial.println("2keypad");
+    lastEvent = 5;
+  }else if(lastEvent!=6 && buttonPressed==5){
+    Serial.println("3keypad");
+    lastEvent = 6;
+  }
+}
+
+boolean analogToButton(int analog){
+  if(analog>1000){
+    return 0;
+  }else if(analog<20 && analog>10){
+    return 1;
+  }else if(analog<170 && analog>130){
+    return 2;
+  }else if(analog<270 && analog>230){
+    return 3;
+  }else if(analog<350 && analog>310){
+    return 4;
+  }else if(analog<410 && analog>370){
+    return 5;
   }
 }
 
