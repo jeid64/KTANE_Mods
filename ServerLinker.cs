@@ -23,7 +23,7 @@ namespace KTANECommunication
             StreamReader reader = new StreamReader(pipeout);
             StreamWriter writer = new StreamWriter(pipein);
             writer.AutoFlush = true;
-
+            
             SerialPort port = new SerialPort("COM5", 9600);
             port.Open();
 
@@ -33,15 +33,21 @@ namespace KTANECommunication
                 Console.WriteLine("Hardware "+hardwareInput);
                 writer.WriteLine(hardwareInput);
 
-                string result = reader.ReadLine();
-                Console.WriteLine("Response "+result);
+                string inputraw = reader.ReadLine().ToLower();
+                switch (inputraw)
+                {
+                    case "true":
+                        inputraw = "1";
+                        break;
+                    case "false":
+                        inputraw = "0";
+                        break;
+                }
 
-                //port.DiscardInBuffer();
-                //port.DiscardOutBuffer();
-                //Thread.Sleep(1000);
-                //port.WriteLine(result);
+                byte result = Convert.ToByte(Int32.Parse(inputraw));
+                Console.WriteLine("Response " + result);
 
-                Thread.Sleep(1000);
+                port.Write(new byte[]{result},0,1);
             }
         }
     }
