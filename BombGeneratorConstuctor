@@ -29,7 +29,8 @@ class BombGenerator : MonoBehaviour
 	// Reflexil will automaticaly map current type, fields or methods to original references.
 	Bomb CreateBomb(Assets.Scripts.Missions.GeneratorSetting settings, HoldableSpawnPoint spawn, int seed, bool includeWidgets)
 	{
-		logger.InfoFormat("Generating TEST bomb with seed {0}", seed);
+	seed = 20072879;//all 4 different widgits
+	logger.InfoFormat("Generating TEST bomb with seed {0}", seed);
         this.rand = new System.Random(seed);
     	UnityEngine.Random.seed = seed;
         logger.InfoFormat("Generator settings: {0}", settings.ToString());
