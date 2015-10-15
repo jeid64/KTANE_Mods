@@ -7,6 +7,11 @@ const int ButtonColorPinR = 11;
 const int ButtonColorPinG = 10;
 const int ButtonColorPinB = 9;
 
+const int Keypad0ResultPin = 12;
+const int Keypad1ResultPin = 8;
+const int Keypad2ResultPin = 7;
+const int Keypad3ResultPin = 6;
+
 void setup() {
   // initialize serial:
   Serial.begin(9600);
@@ -17,6 +22,11 @@ void setup() {
   pinMode(ButtonColorPinB, OUTPUT);     
   pinMode(ButtonSucessPin, OUTPUT);     
   
+  pinMode(Keypad0ResultPin, OUTPUT);     
+  pinMode(Keypad1ResultPin, OUTPUT);     
+  pinMode(Keypad2ResultPin, OUTPUT);     
+  pinMode(Keypad3ResultPin, OUTPUT);     
+
   pinMode(A5, INPUT_PULLUP); // sets analog pin for input 
 }
 
@@ -94,6 +104,22 @@ void serialEvent() {
        delay(1000);
        digitalWrite(ButtonSucessPin, LOW);
      }
+     case 3:
+       if(inputData==1){
+         digitalWrite(Keypad0ResultPin, HIGH);
+       }
+     case 4:
+       if(inputData==1){
+         digitalWrite(Keypad1ResultPin, HIGH);
+       }
+     case 5:
+       if(inputData==1){
+         digitalWrite(Keypad2ResultPin, HIGH);
+       }
+     case 6:
+       if(inputData==1){
+         digitalWrite(Keypad3ResultPin, HIGH);
+       }
      break;
   }
 }
