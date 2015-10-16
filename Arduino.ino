@@ -57,6 +57,24 @@ void loop() {
     Serial.println("3keypad");
     lastEvent = 6;
   }
+  
+  if(lastEvent!=7 && buttonPressed==6){
+    Serial.println("0maze");
+    lastEvent = 7;
+  }else if(lastEvent!=8 && buttonPressed==7){
+    Serial.println("1maze");
+    lastEvent = 8;
+  }else if(lastEvent!=9 && buttonPressed==8){
+    Serial.println("2maze");
+    lastEvent = 9;
+  }else if(lastEvent!=10 && buttonPressed==9){
+    Serial.println("3maze");
+    lastEvent = 10;
+  }
+  //allow buttons to be pressed in a row
+  else if((lastEvent==7 || lastEvent==8 || lastEvent==9 || lastEvent==10) && buttonPressed==0){
+    lastEvent=0;
+  }
 }
 
 boolean analogToButton(int analog){
@@ -72,6 +90,16 @@ boolean analogToButton(int analog){
     return 4;
   }else if(analog<410 && analog>370){
     return 5;
+  }else if(analog<450 && analog>410){
+    return 6;
+  }else if(analog<490 && analog>450){
+    return 7;
+  }else if(analog<530 && analog>490){
+    return 8;
+  }else if(analog<560 && analog>530){
+    return 9;
+  }else if(analog<590 && analog>560){
+    return 10;
   }
 }
 
