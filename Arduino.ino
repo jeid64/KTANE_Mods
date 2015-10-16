@@ -12,6 +12,8 @@ const int Keypad1ResultPin = 8;
 const int Keypad2ResultPin = 7;
 const int Keypad3ResultPin = 6;
 
+const int MazeResultPin = 5;
+
 void setup() {
   // initialize serial:
   Serial.begin(9600);
@@ -132,22 +134,36 @@ void serialEvent() {
        delay(1000);
        digitalWrite(ButtonSucessPin, LOW);
      }
-     case 3:
-       if(inputData==1){
-         digitalWrite(Keypad0ResultPin, HIGH);
-       }
-     case 4:
-       if(inputData==1){
-         digitalWrite(Keypad1ResultPin, HIGH);
-       }
-     case 5:
-       if(inputData==1){
-         digitalWrite(Keypad2ResultPin, HIGH);
-       }
-     case 6:
-       if(inputData==1){
-         digitalWrite(Keypad3ResultPin, HIGH);
-       }
+     break;
+   case 3:
+     if(inputData==1){
+       digitalWrite(Keypad0ResultPin, HIGH);
+     }
+     break;
+   case 4:
+     if(inputData==1){
+       digitalWrite(Keypad1ResultPin, HIGH);
+     }
+     break;
+   case 5:
+     if(inputData==1){
+       digitalWrite(Keypad2ResultPin, HIGH);
+     }
+     break;
+   case 6:
+     if(inputData==1){
+       digitalWrite(Keypad3ResultPin, HIGH);
+     }
+     break;
+   case 7:
+   case 8:
+   case 9:
+   case 10:
+     if(inputData==1){
+       digitalWrite(ButtonSucessPin, HIGH);
+       delay(1000);
+       digitalWrite(ButtonSucessPin, LOW);
+     }
      break;
   }
 }
