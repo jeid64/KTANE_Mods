@@ -50,17 +50,14 @@ class BombGenerator
 	              if ((component.ComponentType == ComponentTypeEnum.Maze) && (input.Contains("maze")))
 	              {
 	                  int direction = Int32.Parse(input.Substring(0, 1));
-	                  logger.DebugFormat("MOVING UP to {0}", direction);
-	
-	                  ((InvisibleWallsComponent)component).ButtonDown(direction);
-	
-	                  int X = ((InvisibleWallsComponent)component).GetCurrentCell().X;
-	                  int Y = ((InvisibleWallsComponent)component).GetCurrentCell().Y;
-	                  logger.DebugFormat("NOW AT POSITION {0},{1}", X, Y);
-	                  logger.DebugFormat("Hit WALL: {0}",
+	                  
+	                  logger.DebugFormat("WILL HIT WALL: {0}",
 	                      ((InvisibleWallsComponent)component).WallExistsFromCurrentInDirection(direction));
-	
 	                  writer.WriteLine((((InvisibleWallsComponent)component).WallExistsFromCurrentInDirection(direction)).ToString());
+	              
+	              	  logger.DebugFormat("MOVING UP to {0}", direction);
+	                  ((InvisibleWallsComponent)component).ButtonDown(direction);
+
 	              }
 	              else if ((component.ComponentType == ComponentTypeEnum.Wires) && (input.Contains("wire")))
 	              {
