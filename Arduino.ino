@@ -160,9 +160,9 @@ void serialEvent() {
    case 9:
    case 10:
      if(inputData==1){
-       digitalWrite(ButtonSucessPin, HIGH);
+       digitalWrite(MazeResultPin, HIGH);
        delay(1000);
-       digitalWrite(ButtonSucessPin, LOW);
+       digitalWrite(MazeResultPin, LOW);
      }
      break;
   }
