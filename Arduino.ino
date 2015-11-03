@@ -64,16 +64,16 @@ void loop() {
 	  }
   
 	  if(lastEvent!=7 && buttonPressed==6){
-		Serial.println("0maze");
+		Serial.println("1maze");
 		lastEvent = 7;
 	  }else if(lastEvent!=8 && buttonPressed==7){
-		Serial.println("1maze");
+		Serial.println("3maze");
 		lastEvent = 8;
 	  }else if(lastEvent!=9 && buttonPressed==8){
 		Serial.println("2maze");
 		lastEvent = 9;
 	  }else if(lastEvent!=10 && buttonPressed==9){
-		Serial.println("3maze");
+		Serial.println("0maze");
 		lastEvent = 10;
 	  }
 	  //allow buttons to be pressed in a row
