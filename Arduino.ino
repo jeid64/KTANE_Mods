@@ -34,52 +34,63 @@ void setup() {
 
 void loop() {
   //big button pressed
-  int buttonPressed = analogToButton(analogRead(5));
+  int buttonPressed = analogToButton();
+  delay(50);
+  int buttonPressedCheck = analogToButton();
+  //check to prevent noise, because fuck setting up shift registers
+  if(buttonPressed == buttonPressedCheck){
+	  if(lastEvent!=1 && buttonPressed==1){
+		Serial.println("1button");
+		lastEvent = 1;
+	  }
+	  //big button depressed
+	  else if(lastEvent==1 && buttonPressed==0){
+		Serial.println("0button");
+		lastEvent = 2;
+	  }
   
-  if(lastEvent!=1 && buttonPressed==1){
-    Serial.println("1button");
-    lastEvent = 1;
-  }
-  //big button depressed
-  else if(lastEvent==1 && buttonPressed==0){
-    Serial.println("0button");
-    lastEvent = 2;
-  }
+	  if(lastEvent!=3 && buttonPressed==2){
+		Serial.println("0keypad");
+		lastEvent = 3;
+	  }else if(lastEvent!=4 && buttonPressed==3){
+		Serial.println("1keypad");
+		lastEvent = 4;
+	  }else if(lastEvent!=5 && buttonPressed==4){
+		Serial.println("2keypad");
+		lastEvent = 5;
+	  }else if(lastEvent!=6 && buttonPressed==5){
+		Serial.println("3keypad");
+		lastEvent = 6;
+	  }
   
-  if(lastEvent!=3 && buttonPressed==2){
-    Serial.println("0keypad");
-    lastEvent = 3;
-  }else if(lastEvent!=4 && buttonPressed==3){
-    Serial.println("1keypad");
-    lastEvent = 4;
-  }else if(lastEvent!=5 && buttonPressed==4){
-    Serial.println("2keypad");
-    lastEvent = 5;
-  }else if(lastEvent!=6 && buttonPressed==5){
-    Serial.println("3keypad");
-    lastEvent = 6;
-  }
-  
-  if(lastEvent!=7 && buttonPressed==6){
-    Serial.println("0maze");
-    lastEvent = 7;
-  }else if(lastEvent!=8 && buttonPressed==7){
-    Serial.println("1maze");
-    lastEvent = 8;
-  }else if(lastEvent!=9 && buttonPressed==8){
-    Serial.println("2maze");
-    lastEvent = 9;
-  }else if(lastEvent!=10 && buttonPressed==9){
-    Serial.println("3maze");
-    lastEvent = 10;
-  }
-  //allow buttons to be pressed in a row
-  else if((lastEvent==7 || lastEvent==8 || lastEvent==9 || lastEvent==10) && buttonPressed==0){
-    lastEvent=0;
+	  if(lastEvent!=7 && buttonPressed==6){
+		Serial.println("0maze");
+		lastEvent = 7;
+	  }else if(lastEvent!=8 && buttonPressed==7){
+		Serial.println("1maze");
+		lastEvent = 8;
+	  }else if(lastEvent!=9 && buttonPressed==8){
+		Serial.println("2maze");
+		lastEvent = 9;
+	  }else if(lastEvent!=10 && buttonPressed==9){
+		Serial.println("3maze");
+		lastEvent = 10;
+	  }
+	  //allow buttons to be pressed in a row
+	  else if((lastEvent==7 || lastEvent==8 || lastEvent==9 || lastEvent==10) && buttonPressed==0){
+		lastEvent=0;
+	  }
   }
 }
 
-boolean analogToButton(int analog){
+int analogToButton(){
+  int analog = analogRead(5);
+  for (int i=0; i < 4; i++)
+  {
+     analog += analogRead(5);
+  }
+  analog = analog / 5;
+
   if(analog>1000){
     return 0;
   }else if(analog<20 && analog>10){
@@ -102,6 +113,8 @@ boolean analogToButton(int analog){
     return 9;
   }else if(analog<590 && analog>560){
     return 10;
+  }else{
+	return 0;
   }
 }
 
@@ -170,24 +183,29 @@ void serialEvent() {
 
 void handleColor(byte inputData)
 {
+  //white
   if(inputData==3){
     analogWrite(ButtonColorPinR, 255);
     analogWrite(ButtonColorPinG, 255);
     analogWrite(ButtonColorPinB, 255);  
   }
+  //red
   else if(inputData==0){
     analogWrite(ButtonColorPinR, 255);
     analogWrite(ButtonColorPinG, 0);
     analogWrite(ButtonColorPinB, 0);  
   }
+  //yellow
   else if(inputData==2){
     analogWrite(ButtonColorPinR, 255);
-    analogWrite(ButtonColorPinG, 255);
+    analogWrite(ButtonColorPinG, 120);
     analogWrite(ButtonColorPinB, 0);  
   }
+  //blue
   else if(inputData==1){
     analogWrite(ButtonColorPinR, 0);
     analogWrite(ButtonColorPinG, 0);
     analogWrite(ButtonColorPinB, 255);  
   }
+  //color(75,75,0); // turn the RGB LED green  
 }
