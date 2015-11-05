@@ -7,19 +7,15 @@ const int ButtonColorPinR = 11;
 const int ButtonColorPinG = 10;
 const int ButtonColorPinB = 9;
 
-const int Keypad0ResultPin = 12;
-const int Keypad1ResultPin = 8;
-const int Keypad2ResultPin = 7;
-const int Keypad3ResultPin = 6;
+unsigned int keypadsValid = 0;
+const int KeypadDataPin = 12;
+const int KeypadClockPin = 8;
 
 const int MazeResultPin = 5;
 
 unsigned int curFreq = 0;
-const int Freq0 = 4;
-const int Freq1 = 3;
-const int Freq2 = 2;
-const int Freq3 = 1;
-
+const int FreqDataPin = 4;
+const int FreqClockPin = 3;
 
 void setup() {
   // initialize serial:
@@ -31,19 +27,19 @@ void setup() {
   pinMode(ButtonColorPinB, OUTPUT);     
   pinMode(ButtonSucessPin, OUTPUT);     
 
-  pinMode(Keypad0ResultPin, OUTPUT);     
-  pinMode(Keypad1ResultPin, OUTPUT);     
-  pinMode(Keypad2ResultPin, OUTPUT);     
-  pinMode(Keypad3ResultPin, OUTPUT);     
+  pinMode(KeypadDataPin, OUTPUT);     
+  pinMode(KeypadClockPin, OUTPUT);   
 
   pinMode(MazeResultPin, OUTPUT);     
 
-  pinMode(Freq0, OUTPUT);     
-  pinMode(Freq1, OUTPUT);     
-  pinMode(Freq2, OUTPUT);     
-  pinMode(Freq3, OUTPUT);     
-
+  pinMode(FreqDataPin, OUTPUT);     
+  pinMode(FreqClockPin, OUTPUT); 
+  
   pinMode(A5, INPUT_PULLUP); // sets analog pin for input 
+  
+  //set to 0
+  shiftOut(FreqDataPin, FreqClockPin, MSBFIRST, curFreq); 
+  shiftOut(KeypadDataPin, KeypadClockPin, MSBFIRST, keypadsValid);   
 }
 
 void loop() {
@@ -112,34 +108,7 @@ void loop() {
         curFreq = 0;
       }
 
-      //rough conversion to binary
-      if(curFreq & B1000){
-        digitalWrite(Freq0, HIGH);
-      }
-      else{
-        digitalWrite(Freq0, LOW);
-      }
-
-      if(curFreq & B0100){
-        digitalWrite(Freq1, HIGH);
-      }
-      else{
-        digitalWrite(Freq1, LOW);
-      }
-
-      if(curFreq & B0010){
-        digitalWrite(Freq2, HIGH);
-      }
-      else{
-        digitalWrite(Freq2, LOW);
-      }
-
-      if(curFreq & B0001){
-        digitalWrite(Freq3, HIGH);
-      }
-      else{
-        digitalWrite(Freq3, LOW);
-      }
+      shiftOut(FreqDataPin, FreqClockPin, MSBFIRST, curFreq);  
 
       lastEvent = 12;
     }
@@ -227,22 +196,26 @@ void serialEvent() {
     break;
   case 3:
     if(inputData==1){
-      digitalWrite(Keypad0ResultPin, HIGH);
+      keypadsValid += 8;
+      shiftOut(KeypadDataPin, KeypadClockPin, MSBFIRST, keypadsValid);   
     }
     break;
   case 4:
     if(inputData==1){
-      digitalWrite(Keypad1ResultPin, HIGH);
+      keypadsValid += 4;
+      shiftOut(KeypadDataPin, KeypadClockPin, MSBFIRST, keypadsValid);   
     }
     break;
   case 5:
     if(inputData==1){
-      digitalWrite(Keypad2ResultPin, HIGH);
+      keypadsValid += 2;
+      shiftOut(KeypadDataPin, KeypadClockPin, MSBFIRST, keypadsValid);   
     }
     break;
   case 6:
     if(inputData==1){
-      digitalWrite(Keypad3ResultPin, HIGH);
+      keypadsValid += 1;
+      shiftOut(KeypadDataPin, KeypadClockPin, MSBFIRST, keypadsValid);   
     }
     break;
   case 7:
@@ -286,4 +259,3 @@ void handleColor(byte inputData)
   }
   //color(75,75,0); // turn the RGB LED green  
 }
-
