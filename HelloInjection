@@ -7,6 +7,7 @@ using System.Text;
 using BombGame;
 using Assets.Scripts.Missions;
 using System.Threading;
+using Assets.Scripts.Rules;
 #endregion 
 
 #region " Referenced assemblies "
@@ -112,18 +113,19 @@ class BombGenerator
 	
 	                  writer.WriteLine(((KeypadComponent)component).buttons[key].IsStayingDown);
 	              }
-	              else if ((component.ComponentType == ComponentTypeEnum.Simon) && input.Contains("simon"))
+	              else if ((component.ComponentType == ComponentTypeEnum.Morse) && input.Contains("transmit"))
 	              {
-	                  int simonkey = Int32.Parse(input.Substring(0, 1));
-	                  logger.DebugFormat("PRESS SIMON {0}", simonkey);
-	                  ((SimonComponent)component).ButtonDown(simonkey);
-	                  ((SimonComponent)component).buttons[simonkey].Interact();
-	
-	                  //writer.WriteLine()
+	                  int MorseFreq = Int32.Parse(input.Substring(0, input.IndexOf("t")));
+	                  logger.DebugFormat("PRESS MORSE FREQ {0}", MorseFreq);
+	                  
+	                  ((MorseCodeComponent)component).currentFrequencyIndex = MorseFreq;
+	                  ((MorseCodeComponent)component).OnButtonTransmitPushed();
+
+	                  writer.WriteLine(RuleManager.Instance.MorseCodeRuleSet.ValidFrequencies[MorseFreq]==((MorseCodeComponent)component).chosenFrequency);
 	              }
 	          }
 	          logger.Debug("THEAD ALIVE");
-	          System.Threading.Thread.Sleep(1000);
+	          System.Threading.Thread.Sleep(100);
 	      }
 	  }
 	
