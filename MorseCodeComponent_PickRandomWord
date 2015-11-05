@@ -40,6 +40,7 @@ class MorseCodeComponent
     MorseCodeComponent.Logger.DebugFormat("Chosen word is: {0} (freq={1}).", (object) this.chosenWord, (object) this.chosenFrequency);
 
     MorsePipeOut = new StreamWriter(new NamedPipeServerStream("KTANEMorseOut"));
+    MorsePipeOut.AutoFlush = true;
 	}
 	
 	#region " Methods stubs "
