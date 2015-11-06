@@ -36,6 +36,9 @@ class BombGenerator
 	      var pipeout = new NamedPipeServerStream("KTANEout");
 	      pipein.Connect();
 	      pipeout.WaitForConnection();
+	      
+	      Thread morseThread = new Thread(new ThreadStart(MorseListener));
+	      
 	      //reading format [NUMBER][TYPE]
 	      StreamReader reader = new StreamReader(pipein);
 	      StreamWriter writer = new StreamWriter(pipeout);
