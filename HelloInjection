@@ -34,22 +34,11 @@ class BombGenerator
 	      logger.Debug("INSIDE THREAD");
 	      var pipein = new NamedPipeClientStream("KTANEin");
 	      var pipeout = new NamedPipeServerStream("KTANEout");
-	      var MorsePipeOut = new NamedPipeServerStream("KTANEMorseOut");
 	      pipein.Connect();
 	      pipeout.WaitForConnection();
-	      MorsePipeOut.WaitForConnection();
 	      //reading format [NUMBER][TYPE]
 	      StreamReader reader = new StreamReader(pipein);
 	      StreamWriter writer = new StreamWriter(pipeout);
-	      foreach (BombComponent component in this.bomb.BombComponents)
-	      {
-	          if (component.ComponentType == ComponentTypeEnum.Morse)
-	          {
-	              ((MorseCodeComponent)component).MorsePipeOut = new StreamWriter(MorsePipeOut);
-	              ((MorseCodeComponent)component).MorsePipeOut.AutoFlush = true;
-	              ((MorseCodeComponent)component).writePipe = true;
-	          }
-	      }
 	      writer.AutoFlush = true;
 	      logger.Debug("Pipes connected");
       
