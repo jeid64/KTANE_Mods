@@ -1,0 +1,102 @@
+#region " Imports "
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.IO.Pipes;
+using System.Text;
+using BombGame;
+using Assets.Scripts.Missions;
+using System.Threading;
+using Assets.Scripts.Rules;
+#endregion 
+
+#region " Referenced assemblies "
+// - mscorlib v2.0.0.0
+// - UnityEngine v0.0.0.0
+// - UnityEngine.UI v1.0.0.0
+// - System.Core v3.5.0.0
+// - System v2.0.0.0
+// - log4net v1.2.13.0
+// - Assembly-CSharp-firstpass v0.0.0.0
+// - System.Xml v2.0.0.0
+// - Assembly-CSharp v0.0.0.0
+// - System.Core v4.0.0.0
+// - Assembly-CSharp v0.0.0.0
+#endregion 
+
+class BombGenerator
+{
+	// Limited support!
+	// You can only reference methods or fields defined in the class (not in ancestors classes)
+	// Fields and methods stubs are needed for compilation purposes only.
+	// Reflexil will automaticaly map current type, fields or methods to original references.
+	void MorseListener()
+	{
+	  	var morsepipeout = new NamedPipeServerStream("KTANEMorseOut");
+	  	morsepipeout.WaitForConnection();
+	  	
+	  	StreamWriter writer = new StreamWriter(morsepipeout);
+	    writer.AutoFlush = true;
+	    
+	    while(true){
+	      foreach (BombComponent component in this.bomb.BombComponents)
+	      {
+	        if(component.ComponentType == ComponentTypeEnum.Morse){
+	          writer.WriteLine(((MorseCodeComponent)component).LEDLit.activeSelf);
+	        }
+	      }
+	      Thread.Sleep(100);
+	    }
+	}
+	
+	#region " Methods stubs "
+	// Do not add or update any method. If compilation fails because of a method declaration, comment it
+	BombGenerator()
+	{
+	}
+	
+	static BombGenerator()
+	{
+	}
+	
+	void Awake()
+	{
+	}
+	
+	Bomb CreateBomb(Assets.Scripts.Missions.GeneratorSetting settings, HoldableSpawnPoint spawn, int seed, bool includeWidgets)
+	{
+		return default(Bomb);
+	}
+	
+	void InstantiateComponent(BombFace selectedFace, BombComponent bombComponentPrefab)
+	{
+	}
+	
+	Assets.Scripts.Missions.ComponentTypeEnum SelectWeightedRandomComponentType(System.Collections.Generic.List<Assets.Scripts.Missions.ComponentTypeEnum> componentTypes)
+	{
+		return default(Assets.Scripts.Missions.ComponentTypeEnum);
+	}
+	
+	void HelloInjection()
+	{
+	}
+	
+	#endregion 
+	
+	#region " Fields stubs "
+	// Do not add or update any field. If compilation fails because of a field declaration, comment it
+	static log4net.ILog logger;
+	float bombScale;
+	UnityEngine.GameObject bombCasePrefab;
+	TimerComponent timerComponentPrefab;
+	BombComponent emptyComponentPrefab;
+	System.Collections.Generic.List<BombComponent> componentPrefabs;
+	System.Collections.Generic.Dictionary<Assets.Scripts.Missions.ComponentTypeEnum, BombComponent> componentPrefabDictionary;
+	System.Collections.Generic.Dictionary<Assets.Scripts.Missions.ComponentTypeEnum, float> componentWeights;
+	bool UseWeightedSelection;
+	System.Random rand;
+	System.Collections.Generic.List<BombFace> validBombFaces;
+	Bomb bomb;
+	#endregion 
+
+}
