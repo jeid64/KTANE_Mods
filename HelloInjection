@@ -161,6 +161,9 @@ class BombGenerator
 		return default(Assets.Scripts.Missions.ComponentTypeEnum);
 	}
 	
+	void MorseListener(){
+	}
+	
 	#endregion 
 	
 	#region " Fields stubs "
