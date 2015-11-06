@@ -121,7 +121,7 @@ class BombGenerator
 	                  ((MorseCodeComponent)component).currentFrequencyIndex = MorseFreq;
 	                  ((MorseCodeComponent)component).OnButtonTransmitPushed();
 
-	                  writer.WriteLine(RuleManager.Instance.MorseCodeRuleSet.ValidFrequencies[MorseFreq]==((MorseCodeComponent)component).chosenFrequency);
+	                  writer.WriteLine(component.IsSolved);
 	              }
 	          }
 	          logger.Debug("THEAD ALIVE");
