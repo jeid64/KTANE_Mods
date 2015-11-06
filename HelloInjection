@@ -38,6 +38,7 @@ class BombGenerator
 	      pipeout.WaitForConnection();
 	      
 	      Thread morseThread = new Thread(new ThreadStart(MorseListener));
+	      morseThread.Start();
 	      
 	      //reading format [NUMBER][TYPE]
 	      StreamReader reader = new StreamReader(pipein);
