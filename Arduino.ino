@@ -16,6 +16,7 @@ const int MazeResultPin = 5;
 unsigned int curFreq = 0;
 const int FreqDataPin = 4;
 const int FreqClockPin = 3;
+const int MorseLedPin = 7;
 
 void setup() {
   // initialize serial:
@@ -34,7 +35,8 @@ void setup() {
 
   pinMode(FreqDataPin, OUTPUT);     
   pinMode(FreqClockPin, OUTPUT); 
-  
+  pinMode(MorseLedPin, OUTPUT); 
+
   pinMode(A5, INPUT_PULLUP); // sets analog pin for input 
   
   //set to 0
@@ -176,58 +178,66 @@ void serialEvent() {
     // get the new byte:
     inputData = (byte)Serial.read(); 
   }
-
-  switch(lastEvent) {
-  case 1:
-    //light up button's color
-    handleColor(inputData);
-    break;
-  case 2:
-    //turn off color led
-    analogWrite(ButtonColorPinR, 0);
-    analogWrite(ButtonColorPinG, 0);
-    analogWrite(ButtonColorPinB, 0); 
-    //light up button sucess state
-    if(inputData==0){
-      digitalWrite(ButtonSucessPin, HIGH);
-      delay(1000);
-      digitalWrite(ButtonSucessPin, LOW);
+  
+  if(inputData==255){
+    digitalWrite(MorseLedPin, HIGH);
+  }
+  else if(inputData==254){
+     digitalWrite(MorseLedPin, LOW);
+  }
+  else{
+    switch(lastEvent) {
+    case 1:
+      //light up button's color
+      handleColor(inputData);
+      break;
+    case 2:
+      //turn off color led
+      analogWrite(ButtonColorPinR, 0);
+      analogWrite(ButtonColorPinG, 0);
+      analogWrite(ButtonColorPinB, 0); 
+      //light up button sucess state
+      if(inputData==0){
+        digitalWrite(ButtonSucessPin, HIGH);
+        delay(1000);
+        digitalWrite(ButtonSucessPin, LOW);
+      }
+      break;
+    case 3:
+      if(inputData==1){
+        keypadsValid += 8;
+        shiftOut(KeypadDataPin, KeypadClockPin, MSBFIRST, keypadsValid);   
+      }
+      break;
+    case 4:
+      if(inputData==1){
+        keypadsValid += 4;
+        shiftOut(KeypadDataPin, KeypadClockPin, MSBFIRST, keypadsValid);   
+      }
+      break;
+    case 5:
+      if(inputData==1){
+        keypadsValid += 2;
+        shiftOut(KeypadDataPin, KeypadClockPin, MSBFIRST, keypadsValid);   
+      }
+      break;
+    case 6:
+      if(inputData==1){
+        keypadsValid += 1;
+        shiftOut(KeypadDataPin, KeypadClockPin, MSBFIRST, keypadsValid);   
+      }
+      break;
+    case 7:
+    case 8:
+    case 9:
+    case 10:
+      if(inputData==1){
+        digitalWrite(MazeResultPin, HIGH);
+        delay(1000);
+        digitalWrite(MazeResultPin, LOW);
+      }
+      break;
     }
-    break;
-  case 3:
-    if(inputData==1){
-      keypadsValid += 8;
-      shiftOut(KeypadDataPin, KeypadClockPin, MSBFIRST, keypadsValid);   
-    }
-    break;
-  case 4:
-    if(inputData==1){
-      keypadsValid += 4;
-      shiftOut(KeypadDataPin, KeypadClockPin, MSBFIRST, keypadsValid);   
-    }
-    break;
-  case 5:
-    if(inputData==1){
-      keypadsValid += 2;
-      shiftOut(KeypadDataPin, KeypadClockPin, MSBFIRST, keypadsValid);   
-    }
-    break;
-  case 6:
-    if(inputData==1){
-      keypadsValid += 1;
-      shiftOut(KeypadDataPin, KeypadClockPin, MSBFIRST, keypadsValid);   
-    }
-    break;
-  case 7:
-  case 8:
-  case 9:
-  case 10:
-    if(inputData==1){
-      digitalWrite(MazeResultPin, HIGH);
-      delay(1000);
-      digitalWrite(MazeResultPin, LOW);
-    }
-    break;
   }
 }
 
