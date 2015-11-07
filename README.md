@@ -2,7 +2,12 @@
 
 TODO
 finish morse module
--morse led, hook to game code
+-result led
+
+clean up wires
+-http://www.amazon.com/CIRCUIT-TEST-Preformed-Breadboard-Jumper-Wire
+
+get green leds for keypad module
 
 3d print case
 
