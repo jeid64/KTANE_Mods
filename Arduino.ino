@@ -17,6 +17,7 @@ unsigned int curFreq = 0;
 const int FreqDataPin = 4;
 const int FreqClockPin = 3;
 const int MorseLedPin = 7;
+const int MorseResultPin = 6;
 
 void setup() {
   // initialize serial:
@@ -36,6 +37,7 @@ void setup() {
   pinMode(FreqDataPin, OUTPUT);     
   pinMode(FreqClockPin, OUTPUT); 
   pinMode(MorseLedPin, OUTPUT); 
+  pinMode(MorseResultPin, OUTPUT); 
 
   pinMode(A5, INPUT_PULLUP); // sets analog pin for input 
   
@@ -237,6 +239,13 @@ void serialEvent() {
         digitalWrite(MazeResultPin, LOW);
       }
       break;
+    case 11:
+      if(inputData==0){
+        digitalWrite(MorseResultPin, HIGH);
+        delay(1000);
+        digitalWrite(MorseResultPin, LOW);
+      }
+      break; 
     }
   }
 }
