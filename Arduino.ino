@@ -3,21 +3,21 @@ byte inputData = 0;
 int lastEvent = 0;
 
 const int ButtonSucessPin = 13;
-const int ButtonColorPinR = 11;
-const int ButtonColorPinG = 10;
-const int ButtonColorPinB = 9;
+const int ButtonColorPinR = 10;
+const int ButtonColorPinG = 11;
+const int ButtonColorPinB = 12;
 
 unsigned int keypadsValid = 0;
-const int KeypadDataPin = 12;
+const int KeypadDataPin = 9;
 const int KeypadClockPin = 8;
 
-const int MazeResultPin = 5;
+const int MazeResultPin = 7;
 
 unsigned int curFreq = 0;
-const int FreqDataPin = 4;
-const int FreqClockPin = 3;
-const int MorseLedPin = 7;
-const int MorseResultPin = 6;
+const int FreqDataPin = 6;
+const int FreqClockPin = 5;
+const int MorseLedPin = 4;
+const int MorseResultPin = 3;
 
 void setup() {
   // initialize serial:
