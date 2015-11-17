@@ -1,7 +1,8 @@
 # KTANE_Mods  
   
 TODO  
-3d print case  
+bug with keypad leds  
+bug with maze wall output  
   
 modify book  
   
