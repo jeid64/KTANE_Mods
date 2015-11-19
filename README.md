@@ -1,7 +1,6 @@
 # KTANE_Mods  
   
 TODO   
-bug with maze wall output  
 reset states between games  
 get good seed/configuration(all front pannel, red button)  
   
