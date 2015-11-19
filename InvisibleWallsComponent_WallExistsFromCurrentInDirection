@@ -28,14 +28,14 @@ class InvisibleWallsComponent
 	{
 		switch (direction)
 	    {
-	      case (int)Direction.Up:
+	      case 0:
 	            return currentCell.WallAbove;
-	      case (int)Direction.Down:
-	            return currentCell.WallBelow;
-	      case (int)Direction.Left:
+	      case 1:
 	            return currentCell.WallLeft;
-	      case (int)Direction.Right:
+	      case 2:
 	            return currentCell.WallRight;
+	      case 3:
+	            return currentCell.WallBelow;
 	    }
 	    return false;
 	}
