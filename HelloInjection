@@ -128,6 +128,7 @@ class BombGenerator
 	                  writer.WriteLine(component.IsSolved);
 	              }
 	          }
+	          writer.WriteLine("detonated:" + this.bomb.HasDetonated);
 	          logger.Debug("THEAD ALIVE");
 	          System.Threading.Thread.Sleep(100);
 	      }
