@@ -189,6 +189,15 @@ void serialEvent() {
   else if(inputData==254){
      digitalWrite(MorseLedPin, LOW);
   }
+  else if(inputData==253){
+  //handle detonation state
+    digitalWrite(DetonatePin, HIGH);
+    delay(1000);
+    digitalWrite(DetonatePin, LOW);
+    //reset everything
+    keypadsValid=0;
+    shiftOut(KeypadDataPin, KeypadClockPin, MSBFIRST, keypadsValid);   
+  }
   else{
     switch(lastEvent) {
     case 1:
@@ -249,17 +258,6 @@ void serialEvent() {
       }
       break; 
     }
-  }
-  
-  //handle detonation state
-  int detonated = (byte)Serial.read();
-  if(detonated){
-    digitalWrite(DetonatePin, HIGH);
-    delay(1000);
-    digitalWrite(DetonatePin, LOW);
-    //reset everything
-    keypadsValid=0;
-    shiftOut(KeypadDataPin, KeypadClockPin, MSBFIRST, keypadsValid);   
   }
 }
 
