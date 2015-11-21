@@ -12,10 +12,19 @@ namespace KTANECommunication
 {
     class Program
     {
-        public static SerialPort port = new SerialPort("COM5", 9600);
+        public static SerialPort port;
 
         static void Main(string[] args)
         {
+            if (args.Length == 0)
+            {
+                port = new SerialPort("COM5", 9600);
+            }
+            else
+            {
+                port = new SerialPort(args[0], 9600);
+                Console.WriteLine("hi");
+            }
             var pipein = new NamedPipeServerStream("KTANEin");
             var morsepipeout = new NamedPipeClientStream("KTANEMorseOut");
             var pipeout = new NamedPipeClientStream("KTANEout");
