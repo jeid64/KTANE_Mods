@@ -23,7 +23,6 @@ namespace KTANECommunication
             else
             {
                 port = new SerialPort(args[0], 9600);
-                Console.WriteLine("hi");
             }
             var pipein = new NamedPipeServerStream("KTANEin");
             var morsepipeout = new NamedPipeClientStream("KTANEMorseOut");
