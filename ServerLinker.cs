@@ -60,11 +60,7 @@ namespace KTANECommunication
                 if (isDetonated.Equals("detonated:true"))
                 {
                     Console.WriteLine("Explosion");
-                    port.Write(new byte[] { 1 }, 0, 1);
-                }
-                else
-                {
-                    port.Write(new byte[] { 0 }, 0, 1);
+                    port.Write(new byte[] { 253 }, 0, 1);
                 }
             }
         }
