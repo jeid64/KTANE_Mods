@@ -19,6 +19,8 @@ const int FreqClockPin = 5;
 const int MorseLedPin = 4;
 const int MorseResultPin = 3;
 
+const int DetonatePin = 2;
+
 void setup() {
   // initialize serial:
   Serial.begin(9600);
@@ -38,6 +40,8 @@ void setup() {
   pinMode(FreqClockPin, OUTPUT); 
   pinMode(MorseLedPin, OUTPUT); 
   pinMode(MorseResultPin, OUTPUT); 
+
+  pinMode(DetonatePin, OUTPUT); 
 
   pinMode(A5, INPUT_PULLUP); // sets analog pin for input 
   
@@ -176,10 +180,8 @@ int analogToButton(){
  response.  Multiple bytes of data may be available.
  */
 void serialEvent() {
-  while (Serial.available()) {
-    // get the new byte:
-    inputData = (byte)Serial.read(); 
-  }
+  // get the new byte:
+  inputData = (byte)Serial.read(); 
   
   if(inputData==255){
     digitalWrite(MorseLedPin, HIGH);
@@ -247,6 +249,17 @@ void serialEvent() {
       }
       break; 
     }
+  }
+  
+  //handle detonation state
+  int detonated = (byte)Serial.read();
+  if(detonated){
+    digitalWrite(DetonatePin, HIGH);
+    delay(1000);
+    digitalWrite(DetonatePin, LOW);
+    //reset everything
+    keypadsValid=0;
+    shiftOut(KeypadDataPin, KeypadClockPin, MSBFIRST, keypadsValid);   
   }
 }
 
