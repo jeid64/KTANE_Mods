@@ -54,6 +54,18 @@ namespace KTANECommunication
                 Console.WriteLine("Response " + result);
 
                 port.Write(new byte[]{result},0,1);
+
+                string isDetonated = reader.ReadLine().ToLower();
+                isDetonated = reader.ReadLine().ToLower();//what the fuck is happening
+                if (isDetonated.Equals("detonated:true"))
+                {
+                    Console.WriteLine("Explosion");
+                    port.Write(new byte[] { 1 }, 0, 1);
+                }
+                else
+                {
+                    port.Write(new byte[] { 0 }, 0, 1);
+                }
             }
         }
 
