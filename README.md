@@ -1,7 +1,6 @@
 # KTANE_Mods  
   
 TODO   
-reset states between games  
 get good seed/configuration(all front pannel, red button)  
   
 add external timer and strikes  
